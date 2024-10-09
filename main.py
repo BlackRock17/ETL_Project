@@ -2,6 +2,7 @@ from src.extractors.csv_extractor import extract_from_csv
 from src.extractors.api_extractor import extract_from_api
 from src.extractors.db_extractor import extract_from_db, create_sample_db
 from src.transformers.data_transformer import transform_sales_data, transform_api_data, transform_customer_data
+from src.loaders.data_loader import load_to_csv, load_to_json, load_to_db
 
 
 def main():
@@ -17,15 +18,10 @@ def main():
     posts_df = transform_api_data(api_data)
     categorized_customers = transform_customer_data(customers_df)
 
-    # Print transformed data
-    print("\nTransformed daily sales:")
-    print(daily_sales)
-    print("\nTransformed posts data:")
-    print(posts_df.head())
-    print("\nTransformed customer data:")
-    print(categorized_customers)
-
-    # Load (ще добавим по-късно)
+    # Load
+    load_to_csv(daily_sales, 'data/daily_sales.csv')
+    load_to_json(posts_df, 'data/posts.json')
+    load_to_db(categorized_customers, 'categorized_customers', 'data/etl_results.db')
 
 
 if __name__ == "__main__":
