@@ -3,10 +3,10 @@ from sqlalchemy import create_engine
 
 
 def extract_from_db(db_path, table_name):
-    # Създаване на връзка с базата данни
+    # Create a database connection
     engine = create_engine(f'sqlite:///{db_path}')
 
-    # Извличане на данни от таблицата
+    # Retrieve data from the table
     query = f"SELECT * FROM {table_name}"
     df = pd.read_sql(query, engine)
 
@@ -17,7 +17,7 @@ def extract_from_db(db_path, table_name):
 
 
 def create_sample_db(db_path):
-    # Създаване на примерна база данни и таблица
+    # Create a sample database and table
     engine = create_engine(f'sqlite:///{db_path}')
     df = pd.DataFrame({
         'id': range(1, 6),
