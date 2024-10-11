@@ -2,13 +2,13 @@ import pandas as pd
 
 
 def transform_sales_data(df):
-    # Изчисляване на обща стойност на продажбите
+    # Calculation of total sales value
     df['total_value'] = df['quantity'] * df['price']
 
-    # Преобразуване на датата в datetime формат
+    # Convert the date to datetime format
     df['date'] = pd.to_datetime(df['date'])
 
-    # Групиране по дата и изчисляване на дневни продажби
+    # Group by date and calculate daily sales
     daily_sales = df.groupby('date')['total_value'].sum().reset_index()
     daily_sales.columns = ['date', 'daily_total']
 
@@ -16,20 +16,20 @@ def transform_sales_data(df):
 
 
 def transform_api_data(data):
-    # Преобразуване на списъка от речници в DataFrame
+    # Convert the list of dictionaries to a DataFrame
     df = pd.DataFrame(data)
 
-    # Избиране само на нужните колони
+    # Selecting only the required columns
     df = df[['userId', 'id', 'title']]
 
-    # Преименуване на колоните
+    # Renaming columns
     df.columns = ['user_id', 'post_id', 'post_title']
 
     return df
 
 
 def transform_customer_data(df):
-    # Категоризиране на клиентите въз основа на общо похарчената сума
+    # Categorize customers based on total spend
     df['category'] = pd.cut(df['total_spent'],
                             bins=[0, 100, 200, float('inf')],
                             labels=['Low', 'Medium', 'High'])
